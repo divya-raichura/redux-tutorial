@@ -608,7 +608,7 @@ export default Modal;
 
 // NOTE:
 
-- the 2nd paramater is a function which looks for return value of promise
+- the 2nd paramater is a function which looks for promise
 - fetch() is js function for requesting and it does NOT consider 404 etc as errors
 
 ```js
@@ -619,7 +619,7 @@ const url = "https://course-api.com/react-useReducer-cart-project";
 export const getCartItems = createAsyncThunk("cart/getCartItems", () => {
   return fetch(url)
     .then((resp) => resp.json())
-    .catch((err) => console.log(error));
+    .catch((err) => console.log(err));
 });
 
 const cartSlice = createSlice({
