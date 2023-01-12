@@ -2,7 +2,7 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 // import cartItems from "../../cartItems";
 import axios from "axios";
 
-const url = "https://course-api.com/reat-useReducer-cart-project";
+const url = "https://course-api.com/react-useReducer-cart-project";
 
 const initialState = {
   cartItems: [],
@@ -40,6 +40,7 @@ export const getCartItems = createAsyncThunk(
     }
   }
 );
+console.log("cart", getCartItems)
 
 // name 'cart/getCartItems' need to match with function name
 // export const getCartItems = createAsyncThunk("cart/getCartItems", () => {

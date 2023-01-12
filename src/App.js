@@ -2,20 +2,20 @@ import Navbar from "./components/Navbar";
 import CartContainer from "./components/CartContainer";
 import { useDispatch, useSelector } from "react-redux";
 import { calculateTotal, getCartItems } from "./features/cart/cartSlice";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import Modal from "./components/Modal";
 
 function App() {
   // the 'cart' of state.cart comes from sotre.js cause we named that thing 'cart' in out store
   // so basically state is store and it has all the reducers that we named in store,js
-  const { cartItems, isLoading } = useSelector((state) => state.cart);
-  const { isOpen } = useSelector((state) => state.modal);
+  // const { cartItems, isLoading } = useSelector((state) => state.cart);
+  // const { isOpen } = useSelector((state) => state.modal);
 
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
 
-  useEffect(() => {
-    dispatch(calculateTotal());
-  }, [cartItems]);
+  // useEffect(() => {
+  //   dispatch(calculateTotal());
+  // }, [cartItems]);
 
   /**
       React components automatically update when their state or props change. In this code, the App component is rendered 
@@ -31,26 +31,71 @@ function App() {
 
       https://react-redux.js.org/api/hooks#useselector
       https://react-redux.js.org/api/hooks#how-does-it-work
-   */
-  useEffect(() => {
-    dispatch(getCartItems("random"));
-  }, []);
+  //  */
+  // useEffect(() => {
+  //   dispatch(getCartItems("random"));
+  // }, []);
 
-  if (isLoading) {
-    return (
-      <div className="loading">
-        <h1>Loading...</h1>
-      </div>
-    );
-  }
+  // if (isLoading) {
+  //   return (
+  //     <div className="loading">
+  //       <h1>Loading...</h1>
+  //     </div>
+  //   );
+  // }
 
   return (
     <main>
       {/* note: isOpen is bool var, not a function hence no parenthesis */}
-      {isOpen && <Modal />}
-      <Navbar />
-      <CartContainer />
+      {/* {isOpen && <Modal />} */}
+      {/* <Navbar /> */}
+      {/* <CartContainer /> */}
+      <Fetch></Fetch>
     </main>
   );
 }
+
+const Fetch = () => {
+  const [users, setUsers] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  const getUsers = async () => {
+    const response = await fetch("https://api.github.com/users");
+    const users = await response.json();
+    setUsers(users);
+    setLoading(false);
+    console.log("hi mom")
+    // console.log(users);
+  };
+  
+  useEffect(() => {
+    getUsers();
+    console.log('effect')
+  }, []);
+
+  if (loading) {
+    return <h1>Loading...</h1>;
+  }
+
+  return (
+    <>
+      <h3>github users</h3>
+      <ul className="users">
+        {users.map((user) => {
+          const { id, login, avatar_url, html_url } = user;
+          return (
+            <li key={id}>
+              <img src={avatar_url} alt={login} />
+              <div>
+                <h4>{login}</h4>
+                <a href={html_url}>profile</a>
+              </div>
+            </li>
+          );
+        })}
+      </ul>
+    </>
+  );
+};
+
 export default App;

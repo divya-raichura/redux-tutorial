@@ -1,9 +1,13 @@
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { closeModal } from "../features/modal/modalSlice";
 import { clearCart } from "../features/cart/cartSlice";
 
 function Modal() {
+  const { isOpen } = useSelector((state) => state.modal);
   const dispatch = useDispatch();
+
+  console.log("dispatch", dispatch);
+  console.log("open", isOpen);
 
   return (
     <aside className="modal-container">
